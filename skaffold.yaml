@@ -1,4 +1,4 @@
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 manifests:
   rawYaml:
@@ -17,4 +17,11 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-            
+    - image: nigger/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .

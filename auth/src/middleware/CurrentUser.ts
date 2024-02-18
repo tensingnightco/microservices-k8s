@@ -1,19 +1,38 @@
-import express from 'express';
+import { Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
 
-const router = express.Router();
+interface UserPayload {
+  id: string,
+  email: string
+}
 
-router.get('/api/users/currentuser', (req, res) => {
+declare global {
+  namespace Express {
+    interface Request {
+      currentUser?: UserPayload
+    }
+  }
+}
+
+export const currentUser = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   if (!req.session?.jwt) {
-    return res.send({ currentUser: null });
+    return next()
   }
 
   try {
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!);
-    res.send({ currentUser: payload });
+    const payload = jwt.verify(
+      req.session.jwt, 
+      process.env.JWT_KEY!
+    ) as UserPayload
+    req.currentUser = payload
   } catch (err) {
-    res.send({ currentUser: null });
-  }
-});
 
-export { router as currentUserRouter };
+  }
+  next()
+}
+
+

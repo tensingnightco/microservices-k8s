@@ -8,8 +8,8 @@ interface UserAttrs {
 }
 
 // An interface that desribes the properties that a User model has
-interface UserModel extends mongoose.Model<any> {
-    build(attrs: UserAttrs): any
+interface UserModel extends mongoose.Model<UserDoc> {
+    build(attrs: UserAttrs): UserDoc
 }
 
 // An interface that describes the properties that a User Document has
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
         ret.id = ret._id
         delete ret._id
         delete ret.password
-        delete ret.__ve
+        delete ret.__v
       }
     }
 })
