@@ -16,4 +16,4 @@ const LandingPage = ({ currentUser }) => {
     return data;
   };
   
-  export default LandingPage;
+export default LandingPage;
