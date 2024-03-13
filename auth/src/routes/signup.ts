@@ -1,10 +1,9 @@
 import express, { Request, Response } from 'express'
 import { body } from 'express-validator'
 import jwt from 'jsonwebtoken'
+import { validateRequest, BadRequestError } from '@rallycoding/common'
 
-import { ValidateRequest } from '../middleware/ValidateRequest'
 import { User } from '../models/user'
-import { BadRequestError } from '../errors/BadRequestError'
 
 const router = express.Router()
 
@@ -19,7 +18,7 @@ router.post(
       .isLength({ min: 4, max: 20 })
       .withMessage('Password must be between 4 and 20 characters'),
   ],
-  ValidateRequest,
+  validateRequest,
   async (req: Request, res: Response) => {
 
 
